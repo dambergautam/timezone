@@ -1,0 +1,33 @@
+ul.jquerytimer {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  max-height: 50px;
+}
+
+ul.jquerytimer li { display: inline-block; }
+
+ul.jquerytimer li span {
+  font-weight: 300;
+  font-size: 2em;
+}
+
+ul.jquerytimer li.seperator {
+  vertical-align: top;
+  font-size: 2em;
+}
+
+ul.jquerytimer li p {
+  color: #a7abb1;
+  font-size: 14px;
+}
+
+.close_now{
+    display: none;
+    line-height: 50px;
+    height: 50px;
+    text-align: right;
+}
+.close_now span{
+    color:red; background-color:#FFF; padding:5px; font-size:2em;
+}

@@ -1,56 +1,121 @@
-<?php
-include 'vendor/autoload.php';
+<?php include "function.php";?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-use Carbon\Carbon;
+    <title>Timezone Conversion | Differences</title>
 
-//HTML
-echo "<title>Timezone -Carbon</title>";
-$b = "<br />";
-$h = "<hr/>";
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-$date1 = "2017-04-24 07:45:00";
-$date2 = "2017-01:04 12:00:00";
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 
-$t1 = Carbon::now();
+    <!-- App css style -->
+    <link rel="stylesheet" href="css/style.css">
 
-echo $b;
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="container">
+    <h1 class="text-center"><span class="label label-success">Carbon DateTime</span> | <span class="label label-warning">Timezone Conversion</span> | <span class="label label-primary">Date Differences</span></h1>
+    <div>&nbsp;</div>
 
-$t2 = Carbon::now('Asia/Kathmandu');
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-lg-offset-3 col-md-offset-2">
+            <table class="table table-bordered table-hover table-striped">
+                <tr>
+                    <th colspan="2" style="" class="success">Server Info</th>
+                </tr>
+                <tr>
+                    <th>Timezone</th> <td><?php echo $server_tz;?></td>
+                </tr>
+                <tr>
+                    <th>Timezone Offset</th> <td><?php echo $server_offset;?></td>
+                </tr>
+                <tr>
+                    <th>Current Date and Time</th><td><?php echo $server_current_dt;?></td>
+                </tr>
+                <tr>
+                    <th colspan="2" style="" class="success">Event Info</th>
+                </tr>
+                <tr>
+                    <th>Timezone</th> <td><?php echo $event_tz;?></td>
+                </tr>
+                <tr>
+                    <th>Timezone Offset</th> <td><?php echo $event_offset;?></td>
+                </tr>
+                <tr>
+                    <th>Current Date and Time</th><td><?php echo $event_current_dt;?></td>
+                </tr>
+                <tr>
+                    <th>Event Close Date</th><td><?php echo $event_close_date;?></td>
+                </tr>
+                <tr>
+                    <th colspan="2" class="success">Conversion</th>
+                </tr>
+                <tr>
+                    <th>Event Close Date (Server)</th><td><?php echo $event_close_date_server;?></td>
+                </tr>
+                <tr>
+                    <th colspan="2" style="" class="success">Differences</th>
+                </tr>
+                <tr>
+                    <th>Time left (As per Event TZ)</th>
+                    <td><?php echo $human_readable_diff_server;?></td>
+                </tr>
+                <tr>
+                    <th>Countdown</th>
+                    <td>
+                        <ul id="jqtimer" class="jquerytimer">
+                            <li><span class="days">00</span><p class="days_text">Days</p></li>
+                            <li class="seperator">:</li>
+                            <li><span class="hours">00</span><p class="hours_text">Hours</p></li>
+                            <li class="seperator">:</li>
+                            <li><span class="minutes">00</span><p class="minutes_text">Minutes</p></li>
+                            <li class="seperator">:</li>
+                            <li><span class="seconds">00</span><p class="seconds_text">Seconds</p></li>
+                        </ul>
+                        <div class="close_now" id="jqtimer_finished"></div>
+                    </td>
+                </tr>
+
+            </table>
+            <span>*TZ = Timezone</span><br />
+            <span>*Please install require dependency (nesbot/carbon) via Packagist.</span> <br />
+            <span class="small">Feel free to change event(local)/server timezone or datetime to explore how timezone conversion works!</span>
+
+        </div>
+    </div>
 
 
-$date = new DateTime('2000-01-01', new DateTimeZone('Australia/Brisbane'));
-echo $date->format('Y-m-d h:i:sP');
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-echo $b;
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-$date->setTimezone(new DateTimeZone('Asia/Kathmandu'));
-echo $date->format('Y-m-d h:i:sP');
+    <script type="text/javascript" src="js/countdown.min.js"></script>
+    <script type="text/javascript">
+        $("#jqtimer").countdown({
+                date: "<?php echo $event_close_date_server;?>",
+                offset: 10,
+                day: 'Day',
+                days: 'Days'
+        }, function () {
+                $("#jqtimer").css('display','none');
+                $("#jqtimer_finished").css('display','block');
+                $("#jqtimer_finished").html("<span>CLOSED</span>");
+        });
+    </script>
 
-echo $b.$b.$b;
-
-//Function to convert timezone
-function convertToTz($event_close_date, $tz, $format='Y-m-d h:i:s P'){
-
-	//date_default_timezone_set('UTC');
-	//$date = new DateTime($event_close_date, new DateTimeZone('Australia/Brisbane'));
-	$date = new DateTime($event_close_date, new DateTimeZone('Australia/Brisbane'));
-
-	$date->setTimezone(new DateTimeZone($tz));
-	//$date->setTimezone(new DateTimeZone('UTC'));
-	return $date->format($format);
-}
-
-$ecdate = "2017-04-24 07:45:00";
-echo $ecdate.$b;
-echo convertToTz($ecdate, 'Asia/Kathmandu');
-
-echo $b;
-
-$format = "M d, Y h:ia";
-$timestamp = gmdate($format);
-date_default_timezone_set("UTC");
-$utc_datetime = date($format, $timestamp);
-echo $utc_datetime; 
-
-//var_dump( DateTimeZone::listIdentifiers() ); 
-?>
+  </body>
+</html>
