@@ -6,3 +6,6 @@
  - List all php timezones
  - Get UTC offset of a given timezone
  - Format date and time
+
+## Screenshot
+![Timezone Conversion Screenshot](https://github.com/dambergautam/timezone/blob/master/screenshot/sample_output.PNG?raw=true)
