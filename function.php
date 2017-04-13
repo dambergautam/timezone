@@ -1,12 +1,12 @@
 <?php
 require_once('vendor/autoload.php');
-require_once('class/carbonDateTime.php');
+require_once('class/CarbonDateTime.php');
 
 $fs_config = array();
 $fs_config["DEFINE"]["TIMEZONE"] = "Australia/Brisbane";
 
 //Object
-$objDateTime = new carbonDateTime($fs_config);
+$objDateTime = new CarbonDateTime($fs_config);
 
 
 //Event Details:
